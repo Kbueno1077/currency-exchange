@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import {
     ModuleWrapper, ExchangeWrapper, ImageContainer, ImageWrapper
-} from "@/components/CurrencyExchange/StyledExchange";
+} from "./StyledExchange";
 
-import CurrencyInputs from "@/components/CurrencyExchange/CurrencyInputs";
+import CurrencyInputs from "./CurrencyInputs";
 import {getExchangeRates, getExchangeSymbols} from "@/utils/exchangeUtils";
 import {SymbolsResponse} from "@/types/exchangeTypes";
 

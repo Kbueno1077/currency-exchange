@@ -9,7 +9,7 @@ import {
     StyledInput,
     StyledOption,
     StyledSelect
-} from "@/components/CurrencyExchange/StyledExchange";
+} from "./StyledExchange";
 
 import {getExchangeRates} from "@/utils/exchangeUtils";
 import {CacheExchangeRate, CurrencyInputsProps, ExchangeRateResponse} from "@/types/exchangeTypes";
@@ -62,23 +62,23 @@ export default function CurrencyInputs({symbols}: CurrencyInputsProps) {
             const isInCache = dataCached[actualCurrency]
             const rates: ExchangeRateResponse = isInCache ? dataCached[actualCurrency] : await getExchangeRates()
             const numericAmount = parseFloat(amount)
+
             setExchanged(numericAmount * rates.rates[desireCurrency])
             setConversionRate(rates.rates[desireCurrency])
             setIsLoading(false)
 
-            const base = rates.base
-            setDataCached((prev: CacheExchangeRate) => {
-                return {...prev, [base]: rates}
-            })
-
             if (!isInCache) {
+                const base = rates.base
+                setDataCached((prev: CacheExchangeRate) => {
+                    return {...prev, [base]: rates}
+                })
+
                 setTimeout(() => {
                     const removedDataCached = {...dataCached}
                     delete removedDataCached[base]
                     setDataCached(removedDataCached)
-                }, 10000)
+                }, tenMinutes)
             }
-
 
         } else {
             setError(true)
@@ -98,14 +98,14 @@ export default function CurrencyInputs({symbols}: CurrencyInputsProps) {
             <SelectWrapper>
                 <StyledSelect disabled value={'EUR'} onChange={handleActualCurrencyChange}>
                     <option value="" disabled hidden>Select your actual currency</option>
-                    {symbols && Object.keys(symbols).map((symbol: any, symbolIndex: number) => {
+                    {symbols && Object.keys(symbols).map((symbol: string, symbolIndex: number) => {
                         return (<StyledOption value={symbol} key={symbol}>{symbol}</StyledOption>)
                     })}
                 </StyledSelect>
 
                 <StyledSelect value={desireCurrency} onChange={handleDesireCurrencyChange}>
                     <option value="" disabled hidden>Select your desire currency</option>
-                    {symbols && Object.keys(symbols).map((symbol: any, symbolIndex: number) => {
+                    {symbols && Object.keys(symbols).map((symbol: string, symbolIndex: number) => {
                         return (<StyledOption value={symbol} key={symbol}>{symbol}</StyledOption>)
                     })}
                 </StyledSelect>

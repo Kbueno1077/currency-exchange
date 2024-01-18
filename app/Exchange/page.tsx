@@ -4,7 +4,7 @@ import CurrencyExchange from "../../components/CurrencyExchange";
 const Page: FunctionComponent<void> = () => {
 
     return (
-        <CurrencyExchange/>
+        <CurrencyExchange />
     )
 
 };
